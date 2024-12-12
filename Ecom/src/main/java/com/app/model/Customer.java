@@ -1,0 +1,54 @@
+package com.app.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
+public class Customer {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long cId;
+	
+	@NotNull(message = "Name cannot be null")
+    private String name;
+	
+	@NotNull(message = "Email cannot be null")
+	@Column(unique = true)
+	@Email(message = "")
+	private String email;
+	
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@NotNull(message = "Password cannot be null")
+	private String password;
+	
+	private String city;
+	
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	private String role;
+	
+	@JsonIgnore
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "customer")
+	@JsonManagedReference
+	private Cart cart;
+	
+	@JsonIgnore
+	@JsonManagedReference
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "customer")
+	private Orders orders;
+}

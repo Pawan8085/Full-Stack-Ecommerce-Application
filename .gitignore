@@ -1,1 +1,2 @@
-
+# Ignore the application.properties file
+Ecom/src/main/resources/application.properties

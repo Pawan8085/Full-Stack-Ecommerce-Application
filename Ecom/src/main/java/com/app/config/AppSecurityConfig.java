@@ -21,7 +21,7 @@ public class AppSecurityConfig implements WebMvcConfigurer {
 	public void addCorsMappings(CorsRegistry registry) {
 	    registry.addMapping("/app/**")
 	            .allowedOriginPatterns("http://127.0.0.1:5500",  "https://zesty-mousse-f100c7.netlify.app/") // Explicitly specify allowed origins
-	            .allowedMethods("GET", "POST", "PUT", "OPTIONS")
+	            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
 	            .allowCredentials(true)
 	            .allowedHeaders("*")
 	            .exposedHeaders(HttpHeaders.AUTHORIZATION);

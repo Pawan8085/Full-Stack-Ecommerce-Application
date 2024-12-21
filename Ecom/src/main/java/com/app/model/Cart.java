@@ -28,6 +28,6 @@ public class Cart {
 	@JsonBackReference
 	private Customer customer;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Cart_Item> cartItems;
 }

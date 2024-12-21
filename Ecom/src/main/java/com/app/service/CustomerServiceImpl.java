@@ -518,8 +518,28 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public String removeCartItem(Long cartItemId) {
-
-		return null;
+		Optional<Cart_Item> optCartItem = cartItemRepo.findById(cartItemId);
+		if(optCartItem.isEmpty()) {
+			throw new CartException("Wrong cart Item id!");
+					
+		}
+		
+		// get current customer from authentication obj
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    Customer customer = customerRepo.findByEmail(authentication.getName()).get();
+	    
+	    // check if cart Item belongs to current customer or not
+	    Cart_Item cartItem = optCartItem.get();
+	    if(!cartItem.getUser().equals(customer.getEmail())) {
+	    	throw new CartException("Wrong cart Item id!");
+	    }
+	    
+	    customer.getCart().getCartItems().remove(cartItem);
+	    
+	    cartRepo.save(customer.getCart());
+		
+		
+		return "Item sucessfully removed from your cart";
 	}
 
 	@Override

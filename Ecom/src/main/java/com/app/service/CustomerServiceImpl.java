@@ -484,18 +484,18 @@ public class CustomerServiceImpl implements CustomerService {
 		if (optCartItem.isEmpty()) {
 			throw new CartException("Invalid cartItem Id : " + cartItemId);
 		}
-
+		
+		Cart_Item cartItem = optCartItem.get();
+		
 		// get current customer from authentication obj
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Customer customer = customerRepo.findByEmail(authentication.getName()).get();
 
 		// check if cart Item belongs to current customer or not
-		Optional<Cart_Item> optCartItem2 = cartItemRepo.findByCartIdAndUser(cartItemId, customer.getEmail());
-		if (optCartItem2.isEmpty()) {
-			throw new CartException("This customer does not belong to you !");
+		if(!cartItem.getUser().equals(customer.getEmail())){
+			throw new CartException("Invalid cart item id");
 		}
-
-		Cart_Item cartItem = optCartItem2.get();
+		
 
 		// return current quantity if quantityUpdateType is wrong
 		if (quantityUpdateType < 0 || quantityUpdateType > 1)

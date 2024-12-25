@@ -39,6 +39,7 @@ public class AppSecurityConfig implements WebMvcConfigurer {
 		.requestMatchers("/app/customer/register", 
 				"/app/admin/register",
 				"/app/search/**", 
+				"/app/category/**",
 				"/app/reviews/**",
 				"/app/forgot-password", 
 				"/app/reset-password").permitAll()

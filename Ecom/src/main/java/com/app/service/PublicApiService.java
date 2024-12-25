@@ -6,6 +6,7 @@ import com.app.dtos.ApiResponse;
 import com.app.dtos.ForgotPasswordRequest;
 import com.app.dtos.ResetPasswordRequest;
 import com.app.exceptions.AdminException;
+import com.app.exceptions.CategoryException;
 import com.app.exceptions.CustomerException;
 import com.app.exceptions.ResetPasswordException;
 import com.app.exceptions.ProductException;
@@ -20,6 +21,17 @@ public interface PublicApiService {
 	 * @return -> product object
 	 */
 	Product getProductById(Long productId) throws ProductException;
+	
+	/**
+	 * 
+	 * @param categoryId -> to find products with their respective category
+	 * @param page -> page no of results
+	 * @return -> list of products
+	 * @throws CategoryException
+	 * @throws ProductException
+	 */
+	ApiResponse<Product> findProductsByCategoryId(Long categoryId, int page)throws CategoryException, ProductException;
+	
 	
 	/**
 	 * 

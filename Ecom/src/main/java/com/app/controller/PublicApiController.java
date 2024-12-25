@@ -33,6 +33,7 @@ public class PublicApiController {
 			
 	}
 	
+	
 	@GetMapping("/search/rating")
 	public ResponseEntity<ApiResponse<Product>> searchProductAndFilterByRatingHandler(@RequestParam int rating, @RequestParam String q, @RequestParam int page){
 		
@@ -94,6 +95,14 @@ public class PublicApiController {
 		
 		String msg = publicApiService.passwordResetRequest(resetPasswordRequest);
 		return new ResponseEntity<String>(msg, HttpStatus.CREATED);
+		
+	}
+	
+	@GetMapping("/category/product/{cId}")
+	public ResponseEntity<ApiResponse<Product>> findProductByCategoryIdHandler(@PathVariable Long cId, @RequestParam int page){
+		
+		ApiResponse<Product> products = publicApiService.findProductsByCategoryId(cId, page);
+		return new ResponseEntity<ApiResponse<Product>>(products, HttpStatus.OK);
 		
 	}
 

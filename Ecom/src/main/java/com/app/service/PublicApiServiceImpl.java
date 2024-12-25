@@ -15,15 +15,18 @@ import com.app.dtos.ApiResponse;
 import com.app.dtos.ForgotPasswordRequest;
 import com.app.dtos.PageInfo;
 import com.app.dtos.ResetPasswordRequest;
+import com.app.exceptions.CategoryException;
 import com.app.exceptions.ProductException;
 import com.app.exceptions.ResetPasswordException;
 import com.app.model.Admin;
+import com.app.model.Category;
 import com.app.model.Customer;
 import com.app.model.ForgotPasswordOTP;
 import com.app.model.Otp;
 import com.app.model.Product;
 import com.app.model.Review;
 import com.app.repo.AdminRepo;
+import com.app.repo.CategoryRepo;
 import com.app.repo.CustomerRepo;
 import com.app.repo.ForgotPasswordOTPRepo;
 import com.app.repo.ProductRepo;
@@ -33,6 +36,9 @@ public class PublicApiServiceImpl implements PublicApiService {
 	
 	@Autowired
 	private ProductRepo productRepo; 
+	
+	@Autowired
+	private CategoryRepo categoryRepo;
 	
 	@Autowired
 	private CustomerRepo customerRepo;
@@ -70,6 +76,40 @@ public class PublicApiServiceImpl implements PublicApiService {
 	    data.setPageInfo(pageInfo);
 	    
 	    return data;
+	}
+	
+	@Override
+	public ApiResponse<Product> findProductsByCategoryId(Long categoryId, int page)
+			throws CategoryException, ProductException {
+		
+		Optional<Category> optCategory = categoryRepo.findById(categoryId);
+		if(optCategory.isEmpty()) {
+			throw new CategoryException("Invalid category id");
+		}
+		
+		
+		Pageable pageable = PageRequest.of(page, 20);
+		Page<Product> products = productRepo.findProductsByCategoryId(categoryId, pageable);
+		
+		if(products.isEmpty()) {
+			throw new ProductException("No product found");
+		}
+		
+		 // Create response object
+	    ApiResponse<Product> data = new ApiResponse<>();
+	    data.setData(products.getContent());
+	    
+	    // Create and set PageInfo
+	    PageInfo pageInfo = new PageInfo();
+	    pageInfo.setCurrentPage(page); 
+	    pageInfo.setTotalPages(products.getTotalPages());
+	    pageInfo.setTotalRecords((int) products.getTotalElements());
+	    pageInfo.setRecordPerPage(products.getSize()); 
+	    
+	    data.setPageInfo(pageInfo);
+	    
+	    return data;
+		
 	}
 
 	@Override
@@ -302,5 +342,7 @@ public class PublicApiServiceImpl implements PublicApiService {
 	
 		
 	}
+
+	
 
 }

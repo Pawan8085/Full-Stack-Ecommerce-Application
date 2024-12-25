@@ -10,6 +10,9 @@ import com.app.model.Review;
 
 public interface ProductRepo extends JpaRepository<Product, Long>{
 	
+	@Query("SELECT p FROM Product p WHERE p.category.cId = :cId")
+    Page<Product> findProductsByCategoryId(@Param("cId") Long cId, Pageable pageable);
+	
 	/**
 	 * 
 	 * @param key -> product search key

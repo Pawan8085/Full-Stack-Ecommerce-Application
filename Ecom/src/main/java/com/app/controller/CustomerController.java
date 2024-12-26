@@ -75,6 +75,14 @@ public class CustomerController {
 		return new ResponseEntity<String>(msg, HttpStatus.ACCEPTED);
 	}
 	
+	@PostMapping("/customer/order/create/")
+	public ResponseEntity<Order_Item> createOrder(@RequestBody ProductBuyData productBuyData) throws RazorpayException{
+		
+		Order_Item orderItem = customerService.createOrder(productBuyData);
+		
+		return new ResponseEntity<Order_Item>(orderItem, HttpStatus.CREATED);
+	}
+	
 	
 	@PostMapping("/customer/product/buy/")
 	public ResponseEntity<String> confirmOrderHandler(@Valid @RequestBody OrderId orderId){
@@ -125,13 +133,6 @@ public class CustomerController {
 		
 	}
 	
-	@PostMapping("/customer/order/create/")
-	public ResponseEntity<Order_Item> createOrder(@RequestBody ProductBuyData productBuyData) throws RazorpayException{
-		
-		Order_Item orderItem = customerService.createOrder(productBuyData);
-		
-		return new ResponseEntity<Order_Item>(orderItem, HttpStatus.CREATED);
-	}
 	
 	@GetMapping("/customer/orders")
 	public ResponseEntity<List<Order_Item>> getAllOrderItemsHandler(){

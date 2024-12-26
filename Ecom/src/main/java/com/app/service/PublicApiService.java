@@ -5,11 +5,10 @@ import java.util.List;
 import com.app.dtos.ApiResponse;
 import com.app.dtos.ForgotPasswordRequest;
 import com.app.dtos.ResetPasswordRequest;
-import com.app.exceptions.AdminException;
 import com.app.exceptions.CategoryException;
-import com.app.exceptions.CustomerException;
 import com.app.exceptions.ResetPasswordException;
 import com.app.exceptions.ProductException;
+import com.app.model.Category;
 import com.app.model.Product;
 import com.app.model.Review;
 
@@ -32,6 +31,11 @@ public interface PublicApiService {
 	 */
 	ApiResponse<Product> findProductsByCategoryId(Long categoryId, int page)throws CategoryException, ProductException;
 	
+	/**
+	 * 
+	 * @return -> list of category
+	 */
+	List<Category> getCategories();
 	
 	/**
 	 * 

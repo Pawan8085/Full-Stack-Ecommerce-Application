@@ -1,6 +1,7 @@
 package com.app.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -111,6 +112,13 @@ public class PublicApiServiceImpl implements PublicApiService {
 	    return data;
 		
 	}
+	
+	@Override
+	public List<Category> getCategories() {
+		
+		Pageable pageable = PageRequest.of(0, 12); 
+        return categoryRepo.findAll(pageable).getContent();	
+    }
 
 	@Override
 	public ApiResponse<Product> searchProductAndFilterByRating(String key, int page, int rating) {
@@ -342,6 +350,8 @@ public class PublicApiServiceImpl implements PublicApiService {
 	
 		
 	}
+
+	
 
 	
 

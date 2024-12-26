@@ -1,4 +1,6 @@
 package com.app.controller;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.dtos.ApiResponse;
 import com.app.dtos.ForgotPasswordRequest;
 import com.app.dtos.ResetPasswordRequest;
+import com.app.model.Category;
 import com.app.model.Product;
 import com.app.model.Review;
 import com.app.service.PublicApiService;
@@ -103,6 +106,14 @@ public class PublicApiController {
 		
 		ApiResponse<Product> products = publicApiService.findProductsByCategoryId(cId, page);
 		return new ResponseEntity<ApiResponse<Product>>(products, HttpStatus.OK);
+		
+	}
+	
+	@GetMapping("/category")
+	public ResponseEntity<List<Category>> find12CategoriesHandler(){
+		
+		List<Category> categories = publicApiService.getCategories();
+		return new ResponseEntity<List<Category>>(categories, HttpStatus.CREATED);
 		
 	}
 

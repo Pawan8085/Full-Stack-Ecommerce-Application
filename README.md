@@ -39,7 +39,7 @@ Authorization: Basic base64encoded(email:password)
 ### 1. Customer Registration
 
 - **URL**: `/app/customer/register`
-- **Method**: `POST`
+- **Method**: `GET`
 - **Description**: Create a customer account.
 
 #### Request Body

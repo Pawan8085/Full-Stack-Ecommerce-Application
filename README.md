@@ -25,7 +25,7 @@ Developed a RESTful API for an E-Commerce platform using Spring Boot, featuring 
 ###  User Sign-In
 
 - **URL**: `/app/signIn`
-- **Method**: `POST`
+- **Method**: `GET`
 - **Description**: Authenticate any user (e.g., customer, admin) using Basic Authentication and provide a token for secure access.
 
 ### Request Headers
@@ -39,7 +39,7 @@ Authorization: Basic base64encoded(email:password)
 ### 1. Customer Registration
 
 - **URL**: `/app/customer/register`
-- **Method**: `GET`
+- **Method**: `POST`
 - **Description**: Create a customer account.
 
 #### Request Body

@@ -13,7 +13,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,11 +31,12 @@ public class Admin {
 	@Column(unique = true)
 	@NotNull
 	private String email;
+	@Size(min = 8, message = "Password should be at least 8 characters.")
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
 	private String city;
 	private String role;
-	
+
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "admin")
 	@JsonManagedReference

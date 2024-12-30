@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,8 +34,8 @@ public class Customer {
 	@Email(message = "")
 	private String email;
 	
+	@Size(min = 8, message = "Password should be at least 8 characters.")
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	@NotNull(message = "Password cannot be null")
 	private String password;
 	
 	private String city;

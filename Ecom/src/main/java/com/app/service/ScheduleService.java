@@ -31,7 +31,7 @@ public class ScheduleService {
 //		System.out.println(LocalDate.now());
 //	}
 	
-	@Scheduled(fixedRate = 60000*10) // 
+	@Scheduled(cron = "0 0 12 * * ?") // every day at 12 pm
     public void cleanUpExpiredOtps() {
         LocalDateTime now = LocalDateTime.now();
         otpRepo.deleteExpiredOtps(now);

@@ -126,14 +126,18 @@ public class GlobalExceptionHandler {
 
 	// Validation Exception Handler
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<MyErrorDetails> validationFoundExceptionHandler(MethodArgumentNotValidException me,
+	public ResponseEntity<MyErrorDetails> validationExceptionHandler(MethodArgumentNotValidException me,
 			WebRequest wr) {
 		MyErrorDetails err = new MyErrorDetails();
 		err.setTimestap(LocalDateTime.now());
-		me.getBindingResult().getFieldErrors().forEach(error ->{
-//			System.out.println(error.getField()+" "+error.getDefaultMessage());
+		
+		// combine all error messages
+		StringBuilder errorMessages = new StringBuilder();
+		me.getBindingResult().getFieldErrors().forEach(error -> {
+		    errorMessages.append(error.getField()).append(": ").append(error.getDefaultMessage()).append("\n");
 		});
-		err.setMessage(me.getMessage());
+		
+		err.setMessage(errorMessages.toString());
 		err.setDetails(me.getBindingResult().getFieldError().getDefaultMessage());
 
 		return new ResponseEntity<MyErrorDetails>(err, HttpStatus.BAD_REQUEST);

@@ -1,25 +1,73 @@
-# E-Commerce Platform API
 
-Developed a RESTful API for an E-Commerce platform using Spring Boot, featuring secure endpoints for customer and admin functionalities. Key features include:
+# E-Commerce Application
 
-### Key Features
-
-- **Role-based Access Control**  
-  Secured endpoints with JWT authentication, providing separate access levels for customers and admins.
-
-- **Comprehensive Customer Management**  
-  Customer registration, login, and password management with email OTP verification for secure password resets.
-
-- **Product Catalog with Enhanced Usability**  
-  Product listing with pagination, and advanced filtering and sorting options for efficient search.
-
-- **Shopping and Order Management**  
-  Includes shopping cart functionality, product purchases, and order tracking.
-
-- **Data Integrity and Security**  
-  Periodic removal of expired OTPs using scheduled tasks to maintain database integrity.
+An end-to-end E-Commerce application built using **Spring Boot** and **RESTful APIs** with advanced features for security, usability, and performance.
 
 ---
+
+## 🚀 Features
+
+### **Public Functionalities**
+- 🔍 **Search Products**: Search for products using keywords.
+- 🛒 **Filter & Sort Products**:
+  - Filter by **minimum/maximum price** and **rating**.
+  - Sort products by **price ascending** or **descending**.
+- 📂 **View Categories**: Explore product categories.
+- 📝 **Product Reviews**: View reviews and ratings for products.
+- 🔑 **Password Reset with Email OTP Verification**: Secure password recovery process.
+- 🔐 **User Sign-In**: JWT-based authentication for secure access.
+
+### **Admin Functionalities**
+- 🛠️ **Product & Category Management**:
+  - Add, update, and manage products and categories.
+- 📊 **User Analytics**: View the total number of registered users.
+
+### **Customer Functionalities**
+- 🛒 **Cart Management**:
+  - Add/remove items from the cart.
+  - Update item quantities.
+- 💳 **Buy Products**: Secure product checkout and payment.
+- ⭐ **Add Reviews**: Post reviews for purchased products.
+- 📦 **Order History**: View order and cart history.
+
+---
+
+## 🌟 Advanced Features
+
+### 🔒 **JWT-Based Authentication**
+- Role-based access control for users (Admin/Customer/Public).
+- Token expiration and refresh handling.
+
+### 🔑 **Two-Step Verification**
+- Added security with **email OTP verification** for sensitive actions like password changes.
+
+### ⏳ **Backend Scheduling**
+- Automated deletion of expired OTPs using Spring Scheduler.
+
+### 💳 **Payment Gateway Integration**
+- Integrated **RazorPay** for seamless and secure payments during checkout.
+
+### 📄 **Pagination & Sorting**
+- Optimized product search results with pagination and sorting for a better user experience.
+
+### 📤 **Robust API Design**
+- RESTful endpoints with proper request validation and error handling.
+- Standardized response structure for consistent data delivery.
+
+---
+
+## 🛠️ **Tech Stack**
+- **Backend**: Spring Boot, Spring Security, Hibernate, MySQL.
+- **Frontend**: HTML, CSS, JavaScript.
+- **Security**: JWT Authentication, Email OTP Verification.
+- **Payment**: RazorPay Payment Gateway.
+- **Scheduling**: Spring Scheduler for task automation.
+
+---
+
+
+
+
 
 # API Documentation
 ###  User Sign-In

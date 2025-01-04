@@ -65,8 +65,31 @@ An end-to-end E-Commerce application built using **Spring Boot** and **RESTful A
 
 ---
 
+## 📂 **Project Structure**
+```
+Ecommerce
+├── src
+│   └── main
+│       ├── java
+│       │   └── com
+│       │       └── app
+│       │           ├── config               # Configuration package
+│       │           ├── controller           # REST controllers package
+│       │           ├── dtos                 # Data Transfer Objects package
+│       │           ├── exceptions           # Custom exceptions package
+│       │           ├── model                # JPA entities package
+│       │           ├── repo                 # Repositories package
+│       │           ├── services             # Service layer package
+│       │           └── utils                # Utility classes package
+│       └── resources
+│           └── application.properties       # Application configuration
+├── src
+│   └── test                                 # Test package
+└── pom.xml                                  # Maven build configuration
 
+```
 
+---
 
 
 # API Documentation

@@ -15,7 +15,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,6 +32,7 @@ public class Category {
 	@Column(unique = true)
 	@NotNull
 	private String category;
+	@NotNull(message = "category image can not be null")
 	private String image;
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL)

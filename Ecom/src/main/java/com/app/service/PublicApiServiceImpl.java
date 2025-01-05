@@ -60,7 +60,7 @@ public class PublicApiServiceImpl implements PublicApiService {
 	@Override
 	public ApiResponse<Product>  searchProducts(String key, int page) {
 
-		Pageable pageable = PageRequest.of(page, 4); // 20 is the recordsPerPage
+		Pageable pageable = PageRequest.of(page, 16); 
 	    Page<Product> products = productRepo.searchProductByKey(key, pageable);
 	    
 	    // Create response object
@@ -89,7 +89,7 @@ public class PublicApiServiceImpl implements PublicApiService {
 		}
 		
 		
-		Pageable pageable = PageRequest.of(page, 20);
+		Pageable pageable = PageRequest.of(page, 16);
 		Page<Product> products = productRepo.findProductsByCategoryId(categoryId, pageable);
 		
 		if(products.isEmpty()) {
@@ -123,7 +123,7 @@ public class PublicApiServiceImpl implements PublicApiService {
 	@Override
 	public ApiResponse<Product> searchProductAndFilterByRating(String key, int page, int rating) {
 
-		Pageable pageable = PageRequest.of(page, 20);
+		Pageable pageable = PageRequest.of(page, 16);
 		Page<Product> products = productRepo.searchProductByKeyAndFilterByProductRating(key, rating, pageable);
 		
 
@@ -147,7 +147,7 @@ public class PublicApiServiceImpl implements PublicApiService {
 	@Override
 	public ApiResponse<Product> searchProductAndFilterByMinAndMaxPrice(String key, int page, int minPrice, int maxPrice) {
 
-		Pageable pageable = PageRequest.of(page, 4);
+		Pageable pageable = PageRequest.of(page, 16);
 		Page<Product> products = productRepo.searchProductByKeyAndFilterByMinAndMaxPrice(key, minPrice, maxPrice,
 				pageable);
 
@@ -171,7 +171,7 @@ public class PublicApiServiceImpl implements PublicApiService {
 	@Override
 	public ApiResponse<Product> searchProductAndSortByPriceAsc(String key, int page) {
 
-		Pageable pageable = PageRequest.of(page, 4);
+		Pageable pageable = PageRequest.of(page, 16);
 		Page<Product> products = productRepo.searchProductByKeyAndSortByPriceAsc(key, pageable);
 
 		// Create response object
@@ -194,7 +194,7 @@ public class PublicApiServiceImpl implements PublicApiService {
 	@Override
 	public ApiResponse<Product> searchProductAndSortByPriceDesc(String key, int page) {
 
-		Pageable pageable = PageRequest.of(page, 4);
+		Pageable pageable = PageRequest.of(page, 16);
 		Page<Product> products = productRepo.searchProductByKeyAndSortByPriceDesc(key, pageable);
 
 		// Create response object

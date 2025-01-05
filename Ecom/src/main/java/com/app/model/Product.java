@@ -16,6 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,7 +28,11 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long pId;
+	@NotNull(message = "product name can not be null")
+	@Size(min=20, message = "product name length should be atleast 20")
 	private String productName;
+	@NotNull(message = "product description can not be null")
+	@Size(min=40, message = "product description length should be atleast 20")
 	private String productDescription;
 	@NotNull
 	@Min(1)
@@ -37,6 +42,7 @@ public class Product {
 	private Long ratingSum;
 //	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Long ratingCount;
+	@NotNull(message = "product image can not be null")
 	private String image;
 	@Min(0)
 	private Long stocks;

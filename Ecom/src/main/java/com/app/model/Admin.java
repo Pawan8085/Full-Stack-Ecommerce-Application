@@ -27,13 +27,18 @@ public class Admin {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long aId;
+	@NotNull(message = "name can not be null")
+	@Size(min=3, message="name length should be atleast 3")
 	private String name;
 	@Column(unique = true)
 	@NotNull
 	private String email;
-	@Size(min = 8, message = "Password should be at least 8 characters.")
+	
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@Size(min = 8, message = "Password should be at least 8 characters.")
 	private String password;
+	@NotNull
+	@Size(min=3, message="city length should be atleast 3")
 	private String city;
 	private String role;
 

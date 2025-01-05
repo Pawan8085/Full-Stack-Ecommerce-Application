@@ -134,8 +134,9 @@ public class GlobalExceptionHandler {
 		// combine all error messages
 		StringBuilder errorMessages = new StringBuilder();
 		me.getBindingResult().getFieldErrors().forEach(error -> {
-		    errorMessages.append(error.getField()).append(": ").append(error.getDefaultMessage()).append("\n");
+		    errorMessages.append(error.getDefaultMessage()).append("\n");
 		});
+
 		
 		err.setMessage(errorMessages.toString());
 		err.setDetails(me.getBindingResult().getFieldError().getDefaultMessage());

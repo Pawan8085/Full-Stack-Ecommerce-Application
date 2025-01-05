@@ -26,10 +26,11 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long cId;
 	
-	@NotNull(message = "Name cannot be null")
+	@NotNull(message = "name can not be null")
+	@Size(min=3, message="name length should be atleast 3")
     private String name;
 	
-	@NotNull(message = "Email cannot be null")
+	@NotNull(message = "email cannot be null")
 	@Column(unique = true)
 	@Email(message = "")
 	private String email;
@@ -38,6 +39,7 @@ public class Customer {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
 	
+	@Size(min=3, message="city length should be atleast 3")
 	private String city;
 	
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

@@ -9,11 +9,6 @@ import java.util.Random;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.app.dtos.ChangePassWord;
 import com.app.dtos.ChangePassWordOTP;
+import com.app.dtos.CustomerUpdate;
 import com.app.dtos.OrderId;
 import com.app.dtos.PaymentInfo;
 import com.app.dtos.ProductBuyData;
@@ -40,7 +36,6 @@ import com.app.model.PaymentStatus;
 import com.app.model.PaymentType;
 import com.app.model.Product;
 import com.app.model.Review;
-import com.app.model.Temp;
 import com.app.repo.AdminRepo;
 import com.app.repo.CartItemRepo;
 import com.app.repo.CartRepo;
@@ -49,15 +44,9 @@ import com.app.repo.OrderItemRepo;
 import com.app.repo.OrdersRepo;
 import com.app.repo.OtpRepo;
 import com.app.repo.ProductRepo;
-import com.app.repo.ReviewRepo;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.app.utils.FieldValidationUtil;
 import com.razorpay.*;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Transient;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -136,6 +125,42 @@ public class CustomerServiceImpl implements CustomerService {
 		customerRepo.save(customer);
 
 		return "You have Registerd Successfully";
+	}
+	
+	@Override
+	public String updateCustomerProfile(CustomerUpdate customerData) {
+		
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String userName = authentication.getName();
+		
+		//! no need to use optional this method will only get call when customer is authenticated
+		Customer customer = customerRepo.findByEmail(userName).get();
+		
+		boolean update = false;
+		
+		if(customerData.getName() != null) {
+			
+			// validate customer name
+			FieldValidationUtil.validateMinSize(customerData.getName(), 3, "Name");
+			customer.setName(customerData.getName());
+			update = true;
+			
+		}
+		
+		if(customerData.getCity() != null) {
+			
+			// validate customer city
+			FieldValidationUtil.validateMinSize(customerData.getName(), 3, "City");
+			customer.setCity(customerData.getCity());
+			update = true;
+		}
+		
+		if(update) {
+			customerRepo.save(customer);
+			return "Your profile has been updated";
+		}
+		return "Nothing updated!";
 	}
 
 	@Override
@@ -551,5 +576,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 		return customerRepo.findByEmail(userName).get().getOrders().getOrderItems();
 	}
+
+	
 
 }

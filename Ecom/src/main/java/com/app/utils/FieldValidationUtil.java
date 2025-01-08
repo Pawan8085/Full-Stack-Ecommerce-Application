@@ -1,6 +1,6 @@
 package com.app.utils;
 
-public class ProductValidationUtil {
+public class FieldValidationUtil {
 
 	// Validate minimum value for fields like price and stocks
 	public static void validateMinValue(Integer value, int minValue, String fieldName) {

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dtos.ChangePassWord;
 import com.app.dtos.ChangePassWordOTP;
+import com.app.dtos.CustomerUpdate;
 import com.app.dtos.OrderId;
 import com.app.dtos.ProductBuyData;
 import com.app.model.Cart_Item;
@@ -49,6 +50,14 @@ public class CustomerController {
 		
 		String msg = customerService.registerCustomer(customer);
 		return new ResponseEntity<String>(msg, HttpStatus.CREATED);
+		
+	}
+	
+	@PutMapping("/customer/update")
+	public ResponseEntity<String> updateCustomeProfileHandler(@RequestBody CustomerUpdate customerData){
+		
+		String msg = customerService.updateCustomerProfile(customerData);
+		return new ResponseEntity<String>(msg, HttpStatus.OK);
 		
 	}
 	

@@ -20,7 +20,7 @@ import com.app.repo.AdminRepo;
 import com.app.repo.CategoryRepo;
 import com.app.repo.CustomerRepo;
 import com.app.repo.ProductRepo;
-import com.app.utils.ProductValidationUtil;
+import com.app.utils.FieldValidationUtil;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -103,34 +103,35 @@ public class AdminServiceImpl implements AdminService {
 		}
 
 		Product product = optProduct.get();
+		// gotta check if this product belongs to current customer or not
 
 		if (productUpdateData.getProductName() != null) {
 
 			// validate product name
-			ProductValidationUtil.validateMinSize(productUpdateData.getProductName(), 10, "Product Name");
-			ProductValidationUtil.validateMaxSize(productUpdateData.getProductName(), 200, "Product Name");
+			FieldValidationUtil.validateMinSize(productUpdateData.getProductName(), 10, "Product Name");
+			FieldValidationUtil.validateMaxSize(productUpdateData.getProductName(), 200, "Product Name");
 			product.setProductName(productUpdateData.getProductName());
 		}
 
 		if (productUpdateData.getProductDescription() != null) {
 
 			// validate product description
-			ProductValidationUtil.validateMinSize(productUpdateData.getProductDescription(), 100, "Product Description");
-			ProductValidationUtil.validateMaxSize(productUpdateData.getProductDescription(), 500, "Product Description");
+			FieldValidationUtil.validateMinSize(productUpdateData.getProductDescription(), 100, "Product Description");
+			FieldValidationUtil.validateMaxSize(productUpdateData.getProductDescription(), 500, "Product Description");
 			product.setProductDescription(productUpdateData.getProductDescription());
 		}
 
 		if (productUpdateData.getPrice() != null) {
 			
 			// validate the product price
-			ProductValidationUtil.validateMinValue(productUpdateData.getPrice(), 1, "Price");
+			FieldValidationUtil.validateMinValue(productUpdateData.getPrice(), 1, "Price");
 			product.setPrice(productUpdateData.getPrice());
 		}
 
 		if (productUpdateData.getImage() != null) {
 			
 			// validate product image link
-			ProductValidationUtil.validateMinSize(productUpdateData.getImage(), 3, "Product image Link");
+			FieldValidationUtil.validateMinSize(productUpdateData.getImage(), 3, "Product image Link");
 			product.setImage(productUpdateData.getImage());
 			
 		}
@@ -138,7 +139,7 @@ public class AdminServiceImpl implements AdminService {
 		if (productUpdateData.getStocks() != null) {
 			
 			// validate product stocks 
-			ProductValidationUtil.validateMinValue(productUpdateData.getStocks(), 1, "Product Stocks");
+			FieldValidationUtil.validateMinValue(productUpdateData.getStocks(), 1, "Product Stocks");
 			product.setStocks(product.getStocks()+productUpdateData.getStocks());
 		}
 		

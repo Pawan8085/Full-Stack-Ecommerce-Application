@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.app.dtos.ChangePassWord;
 import com.app.dtos.ChangePassWordOTP;
+import com.app.dtos.CustomerUpdate;
 import com.app.dtos.OrderId;
 import com.app.dtos.ProductBuyData;
 import com.app.exceptions.CartException;
@@ -26,6 +27,14 @@ public interface CustomerService {
 	 * @return -> register confirmation message
 	 */
 	String registerCustomer(Customer customer)throws CustomerException;
+	
+	
+	/**
+	 * 
+	 * @param customerData
+	 * @return
+	 */
+	String updateCustomerProfile(CustomerUpdate customerData);
 	
 	/**
 	 * 

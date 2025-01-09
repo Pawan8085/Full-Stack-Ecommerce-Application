@@ -47,7 +47,6 @@ import com.app.repo.ProductRepo;
 import com.app.utils.FieldValidationUtil;
 import com.razorpay.*;
 
-
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -80,7 +79,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	private EmailService emailService;
-	
+
 	@Value("${pmt.key_id}")
 	private String key_id;
 	@Value("${pmt.key_secret}")
@@ -108,6 +107,20 @@ public class CustomerServiceImpl implements CustomerService {
 		if (optCustomer.isPresent()) {
 			throw new CustomerException("duplicate email !");
 		}
+		
+		// send registration confirmation message to customer
+		String to = customer.getEmail();
+		String from = "kumarpawanm8085@gmail.com";
+
+		String subject = "Registration Successful";
+		String text = "You have registered successfully";
+		
+		boolean sent = emailService.send(to, from, subject, text);
+
+		if (!sent) {
+
+			throw new CustomerException("Invalid email address.");
+		}
 
 		customer.setRole("CUSTOMER");
 		customer.setPassword(passwordEncoder.encode(customer.getPassword()));
@@ -126,37 +139,37 @@ public class CustomerServiceImpl implements CustomerService {
 
 		return "You have Registerd Successfully";
 	}
-	
+
 	@Override
 	public String updateCustomerProfile(CustomerUpdate customerData) {
-		
-		
+
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String userName = authentication.getName();
-		
-		//! no need to use optional this method will only get call when customer is authenticated
+
+		// ! no need to use optional this method will only get call when customer is
+		// authenticated
 		Customer customer = customerRepo.findByEmail(userName).get();
-		
+
 		boolean update = false;
-		
-		if(customerData.getName() != null) {
-			
+
+		if (customerData.getName() != null) {
+
 			// validate customer name
 			FieldValidationUtil.validateMinSize(customerData.getName(), 3, "Name");
 			customer.setName(customerData.getName());
 			update = true;
-			
+
 		}
-		
-		if(customerData.getCity() != null) {
-			
+
+		if (customerData.getCity() != null) {
+
 			// validate customer city
 			FieldValidationUtil.validateMinSize(customerData.getName(), 3, "City");
 			customer.setCity(customerData.getCity());
 			update = true;
 		}
-		
-		if(update) {
+
+		if (update) {
 			customerRepo.save(customer);
 			return "Your profile has been updated";
 		}
@@ -262,7 +275,7 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 
 		Product product = optProduct.get();
-		
+
 		// check if product out of stock
 		if (product.getIsOutOfStock()) {
 			throw new ProductException("Product out of stock !");
@@ -285,13 +298,10 @@ public class CustomerServiceImpl implements CustomerService {
 		orderItem.setImage(product.getImage());
 		orderItem.setPrice(product.getPrice());
 		orderItem.setProduct(product.getProductName());
-		
-		
-		
+
 		orderItem.setPaymentStatus(PaymentStatus.PENDING);
 		orderItem.setPaymentType(productBuyData.getPaymentType());
-		
-		
+
 		if (productBuyData.getPaymentType() == PaymentType.ONLINE) {
 
 			Integer amount = product.getPrice() * productBuyData.getQuantity();
@@ -313,14 +323,12 @@ public class CustomerServiceImpl implements CustomerService {
 			orderItem.setPaymentInfo(paymentInfo);
 
 		}
-		
 
 		orderItemRepo.save(orderItem);
 		customer.getOrders().getOrderItems().add(orderItem); // add order to current customer
 		ordersRepo.save(customer.getOrders());
 		System.out.println(orderItem);
-		
-		
+
 		return orderItem;
 	}
 
@@ -328,30 +336,29 @@ public class CustomerServiceImpl implements CustomerService {
 	public String confirmOrder(OrderId orderId) {
 
 		Optional<Order_Item> optOrdeItem = orderItemRepo.findById(orderId.getOrderId());
-		if(optOrdeItem.isEmpty()) throw new OrderException("Invalid order id !");
-		
+		if (optOrdeItem.isEmpty())
+			throw new OrderException("Invalid order id !");
+
 		Order_Item orderItem = optOrdeItem.get();
-		
+
 		// get current customer from authentication obj
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Customer customer = customerRepo.findByEmail(authentication.getName()).get();
-		
+
 		// check if order belongs to customer or not
-		if(!orderItem.getUser().equals(customer.getEmail())) {
+		if (!orderItem.getUser().equals(customer.getEmail())) {
 			throw new CustomerException("This order does not belong to you");
 		}
-		
 
 		Optional<Product> optProduct = productRepo.findById(orderItem.getProductId());
 		if (optProduct.isEmpty()) {
 			throw new ProductException("Invalid Product Id " + orderItem.getProductId());
 		}
-		
-		if (orderItem.getOrderStatus() != OrderStatus.PENDING) {
-	        throw new OrderException("This product was already ordered!");
-	    }
 
-		
+		if (orderItem.getOrderStatus() != OrderStatus.PENDING) {
+			throw new OrderException("This product was already ordered!");
+		}
+
 		Product product = optProduct.get();
 
 		// check if product out of stock
@@ -373,9 +380,8 @@ public class CustomerServiceImpl implements CustomerService {
 			product.setIsOutOfStock(true);
 		}
 
-
-		if(orderItem.getPaymentType() == PaymentType.ONLINE)orderItem.setPaymentStatus(PaymentStatus.PAID);
-
+		if (orderItem.getPaymentType() == PaymentType.ONLINE)
+			orderItem.setPaymentStatus(PaymentStatus.PAID);
 
 		ordersRepo.save(customer.getOrders());
 		productRepo.save(product);
@@ -509,18 +515,17 @@ public class CustomerServiceImpl implements CustomerService {
 		if (optCartItem.isEmpty()) {
 			throw new CartException("Invalid cartItem Id : " + cartItemId);
 		}
-		
+
 		Cart_Item cartItem = optCartItem.get();
-		
+
 		// get current customer from authentication obj
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Customer customer = customerRepo.findByEmail(authentication.getName()).get();
 
 		// check if cart Item belongs to current customer or not
-		if(!cartItem.getUser().equals(customer.getEmail())){
+		if (!cartItem.getUser().equals(customer.getEmail())) {
 			throw new CartException("Invalid cart item id");
 		}
-		
 
 		// return current quantity if quantityUpdateType is wrong
 		if (quantityUpdateType < 0 || quantityUpdateType > 1)
@@ -544,26 +549,25 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public String removeCartItem(Long cartItemId) {
 		Optional<Cart_Item> optCartItem = cartItemRepo.findById(cartItemId);
-		if(optCartItem.isEmpty()) {
+		if (optCartItem.isEmpty()) {
 			throw new CartException("Wrong cart Item id!");
-					
+
 		}
-		
+
 		// get current customer from authentication obj
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-	    Customer customer = customerRepo.findByEmail(authentication.getName()).get();
-	    
-	    // check if cart Item belongs to current customer or not
-	    Cart_Item cartItem = optCartItem.get();
-	    if(!cartItem.getUser().equals(customer.getEmail())) {
-	    	throw new CartException("Wrong cart Item id!");
-	    }
-	    
-	    customer.getCart().getCartItems().remove(cartItem);
-	    
-	    cartRepo.save(customer.getCart());
-		
-		
+		Customer customer = customerRepo.findByEmail(authentication.getName()).get();
+
+		// check if cart Item belongs to current customer or not
+		Cart_Item cartItem = optCartItem.get();
+		if (!cartItem.getUser().equals(customer.getEmail())) {
+			throw new CartException("Wrong cart Item id!");
+		}
+
+		customer.getCart().getCartItems().remove(cartItem);
+
+		cartRepo.save(customer.getCart());
+
 		return "Item sucessfully removed from your cart";
 	}
 
@@ -576,7 +580,5 @@ public class CustomerServiceImpl implements CustomerService {
 
 		return customerRepo.findByEmail(userName).get().getOrders().getOrderItems();
 	}
-
-	
 
 }

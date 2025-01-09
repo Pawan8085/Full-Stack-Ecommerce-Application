@@ -221,7 +221,7 @@ public class PublicApiServiceImpl implements PublicApiService {
 		if(optProduct.isEmpty()) throw new ProductException("Invalid Product Id : "+productId);
 		
 		
-		Pageable pageable = PageRequest.of(page, 1);
+		Pageable pageable = PageRequest.of(page, 10);
 		Page<Review> reviews = productRepo.findReviewsByProductId(productId, pageable);
 		
 		// Create response object

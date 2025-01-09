@@ -22,6 +22,7 @@ import com.razorpay.RazorpayException;
 public interface CustomerService {
 	
 	/**
+	 * Registers customer 
 	 * 
 	 * @param customer -> customer object for register
 	 * @return -> register confirmation message
@@ -30,11 +31,13 @@ public interface CustomerService {
 	
 	
 	/**
-	 * 
-	 * @param customerData
-	 * @return
+	 * Updates the profile of a customer.
+	 *
+	 * @param customerData the customer data to update
+	 * @return a message indicating the status of the profile update
 	 */
 	String updateCustomerProfile(CustomerUpdate customerData);
+
 	
 	/**
 	 * 

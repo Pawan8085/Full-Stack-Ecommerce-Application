@@ -55,6 +55,9 @@ An end-to-end E-Commerce application built using **Spring Boot** and **RESTful A
 - Standardized response structure for consistent data delivery.
 
 ---
+- 🎥 **Project Overview Video**:  [click here](https://drive.google.com/file/d/1XXhl1-LW8z3Q9iWlPymOpFeuIzd-KmGe/view?usp=sharing).
+- 🎥 **Project Demo Video**:  [click here](https://drive.google.com/file/d/1t2BASf5sNGW4Nak7Cm05eEaErl4flt8H/view?usp=sharing).
+---
 
 ## 🛠️ **Tech Stack**
 - **Backend**: Spring Boot, Spring Security, Hibernate, MySQL.

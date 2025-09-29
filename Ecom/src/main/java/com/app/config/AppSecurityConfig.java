@@ -47,13 +47,7 @@ public class AppSecurityConfig implements WebMvcConfigurer {
 				)
 			.addFilterAfter(new JwtTokenGeneratorFilter(), BasicAuthenticationFilter.class)
         	.addFilterBefore(new JwtTokenValidatorFilter(), BasicAuthenticationFilter.class)
-        	.formLogin(form -> form
-        	        .loginPage("/login.html")
-        	        .loginProcessingUrl("/perform_login")
-        	        .usernameParameter("user")
-        	        .passwordParameter("pass")
-        	        .permitAll()
-        	    )
+        	.formLogin(customizer -> customizer.disable())
         	.httpBasic(Customizer.withDefaults())
         	.build();
 			

@@ -153,7 +153,8 @@ public class CustomerServiceImpl implements CustomerService {
 		boolean update = false;
 
 		if (customerData.getName() != null) {
-
+			
+			System.out.println(customerData.getName());
 			// validate customer name
 			FieldValidationUtil.validateMinSize(customerData.getName(), 3, "Name");
 			customer.setName(customerData.getName());

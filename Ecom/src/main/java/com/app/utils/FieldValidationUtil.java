@@ -16,9 +16,8 @@ public class FieldValidationUtil {
 	}
 	
 	// Validate minimum size for fields like productName, productDescription, and
-	// image
 	public static void validateMinSize(String value, int minSize, String fieldName) {
-			if (value != null && value.length() > minSize) {
+			if (value != null && value.length() < minSize) {
 				throw new IllegalArgumentException(fieldName + " must be least " + minSize + " characters");
 			}
 	}

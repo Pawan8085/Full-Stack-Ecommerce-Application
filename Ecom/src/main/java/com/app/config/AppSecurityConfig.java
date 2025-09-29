@@ -3,6 +3,7 @@ package com.app.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,29 +32,31 @@ public class AppSecurityConfig implements WebMvcConfigurer {
 	@Bean
 	public SecurityFilterChain springSecurityConfiguration(HttpSecurity http)throws Exception{
 		
-		http
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		.and()
-		.csrf().disable()
-		.authorizeHttpRequests()
-		.requestMatchers("/app/customer/register", 
+		return http.csrf(customizer -> customizer.disable())
+		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+		.authorizeHttpRequests(
+				request -> request.requestMatchers("/app/customer/register", 
 				"/app/admin/register",
 				"/app/search/**", 
 				"/app/category/**",
 				"/app/reviews/**",
 				"/app/forgot-password", 
 				"/app/reset-password").permitAll()
-		.requestMatchers("/app/customer/**").hasAuthority("CUSTOMER")
-		.requestMatchers("/app/admin/**").hasAuthority("ADMIN")
-		.anyRequest().authenticated().and()
-		.addFilterAfter(new JwtTokenGeneratorFilter(), BasicAuthenticationFilter.class)
-		.addFilterBefore(new JwtTokenValidatorFilter(), BasicAuthenticationFilter.class)
-		.formLogin()
-		.disable()
-		.httpBasic();
-		
-		return http.build();
-		
+				.requestMatchers("/app/customer/**").hasAuthority("CUSTOMER")
+				.requestMatchers("/app/admin/**").hasAuthority("ADMIN").anyRequest().authenticated()
+				)
+			.addFilterAfter(new JwtTokenGeneratorFilter(), BasicAuthenticationFilter.class)
+        	.addFilterBefore(new JwtTokenValidatorFilter(), BasicAuthenticationFilter.class)
+        	.formLogin(form -> form
+        	        .loginPage("/login.html")
+        	        .loginProcessingUrl("/perform_login")
+        	        .usernameParameter("user")
+        	        .passwordParameter("pass")
+        	        .permitAll()
+        	    )
+        	.httpBasic(Customizer.withDefaults())
+        	.build();
+			
 	}
 	
 	@Bean

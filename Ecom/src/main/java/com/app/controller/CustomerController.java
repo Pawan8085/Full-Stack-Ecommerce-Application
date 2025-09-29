@@ -38,14 +38,14 @@ import com.razorpay.*;
 
 
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/app/customer")
 public class CustomerController {
 	
 	@Autowired
 	private CustomerService customerService;
 
 	
-	@PostMapping("/customer/register")
+	@PostMapping("/register")
 	public ResponseEntity<String> customerRegisterHandler(@RequestBody Customer customer){
 		
 		String msg = customerService.registerCustomer(customer);
@@ -53,7 +53,7 @@ public class CustomerController {
 		
 	}
 	
-	@PutMapping("/customer/update")
+	@PutMapping("/update")
 	public ResponseEntity<String> updateCustomeProfileHandler(@RequestBody CustomerUpdate customerData){
 		
 		String msg = customerService.updateCustomerProfile(customerData);
@@ -61,7 +61,7 @@ public class CustomerController {
 		
 	}
 	
-	@GetMapping("/customer/profile")
+	@GetMapping("/profile")
 	public ResponseEntity<Customer> customerProfileHandler(){
 		
 		Customer customer = customerService.customerProfile();
@@ -69,7 +69,7 @@ public class CustomerController {
 		
 	}
 	
-	@PostMapping("/customer/change-password")
+	@PostMapping("/change-password")
 	public ResponseEntity<String> changePasswordRequestHandler(@RequestBody ChangePassWord changePassWord){
 		
 		String msg = customerService.changePasswordRequest(changePassWord);
@@ -77,14 +77,14 @@ public class CustomerController {
 		
 	}
 	
-	@PostMapping("/customer/change-password/verify-otp")
+	@PostMapping("/change-password/verify-otp")
 	public ResponseEntity<String> verifyChangePasswordWithOtpHandler(@RequestBody ChangePassWordOTP changePassWord){
 		
 		String msg = customerService.verifyChangePasswordWithOtp(changePassWord);
 		return new ResponseEntity<String>(msg, HttpStatus.ACCEPTED);
 	}
 	
-	@PostMapping("/customer/order/create/")
+	@PostMapping("/order/create/")
 	public ResponseEntity<Order_Item> createOrder(@RequestBody ProductBuyData productBuyData) throws RazorpayException{
 		
 		Order_Item orderItem = customerService.createOrder(productBuyData);
@@ -93,7 +93,7 @@ public class CustomerController {
 	}
 	
 	
-	@PostMapping("/customer/product/buy/")
+	@PostMapping("/product/buy/")
 	public ResponseEntity<String> confirmOrderHandler(@Valid @RequestBody OrderId orderId){
 		
 		String msg = customerService.confirmOrder(orderId);
@@ -102,7 +102,7 @@ public class CustomerController {
 	}
 	
 	
-	@PostMapping("/customer/product/rating/{productId}")
+	@PostMapping("/product/rating/{productId}")
 	public ResponseEntity<String> addReviewHandler(@RequestBody Review review, @PathVariable Long productId){
 		
 		String msg = customerService.addReview(productId, review);
@@ -110,7 +110,7 @@ public class CustomerController {
 		
 	}
 	
-	@PostMapping("/customer/cart/{productId}")
+	@PostMapping("/cart/{productId}")
 	public ResponseEntity<String> addToCartHandler(@PathVariable Long productId) {
 		
 		String msg = customerService.addToCart(productId);
@@ -118,7 +118,7 @@ public class CustomerController {
 			
 	}
 	
-	@GetMapping("/customer/cart")
+	@GetMapping("/cart")
 	public ResponseEntity<List<Cart_Item>> getAllCartItemsHandler(){
 		
 		List<Cart_Item> cartItems = customerService.getAllCartItem();
@@ -126,7 +126,7 @@ public class CustomerController {
 		
 	}
 	
-	@PutMapping("/customer/cart/{carItemId}")
+	@PutMapping("/cart/{carItemId}")
 	public ResponseEntity<Integer> updateCartItemQuantityHandler(@PathVariable Long carItemId, @RequestParam int type){
 		
 		int quantity = customerService.updateCartItemQuantity(carItemId, type);
@@ -134,7 +134,7 @@ public class CustomerController {
 		
 	}
 	
-	@DeleteMapping("/customer/cart/{cartItemId}")
+	@DeleteMapping("/cart/{cartItemId}")
 	public ResponseEntity<String> deleteCartItemHandler(@PathVariable Long cartItemId){
 		
 		String msg = customerService.removeCartItem(cartItemId);
@@ -143,7 +143,7 @@ public class CustomerController {
 	}
 	
 	
-	@GetMapping("/customer/orders")
+	@GetMapping("/orders")
 	public ResponseEntity<List<Order_Item>> getAllOrderItemsHandler(){
 		
 		return new ResponseEntity<List<Order_Item>>(customerService.getAllOrderItems(0), HttpStatus.OK);

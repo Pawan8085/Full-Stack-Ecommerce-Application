@@ -882,6 +882,33 @@ POST /app/reset-password
 }
 ```
 
+## Front-End
+### Home
+<img width="1920" height="1080" alt="Screenshot (1787)" src="https://github.com/user-attachments/assets/3c6e9661-4888-4610-80f2-b00027c4690a" />
+
+### Product Search Results
+<img width="1920" height="1080" alt="Screenshot (1788)" src="https://github.com/user-attachments/assets/3e9d59dd-8005-470b-acbb-afd9a12e019e" />
+
+### Product Details
+<img width="1920" height="1080" alt="Screenshot (1789)" src="https://github.com/user-attachments/assets/7272d642-8528-4202-871b-4e84131a6c25" />
+
+### User Profile
+<img width="1920" height="1080" alt="Screenshot (1790)" src="https://github.com/user-attachments/assets/fdc2ea15-6846-47bf-aa37-c5e478391422" />
+
+### Orders
+<img width="1920" height="1080" alt="Screenshot (1791)" src="https://github.com/user-attachments/assets/d66dbadc-fb4b-47c0-9f31-c2816c4789d3" />
+
+### Cart Items
+<img width="1920" height="1080" alt="Screenshot (1792)" src="https://github.com/user-attachments/assets/a338fab7-cac9-4061-9e35-da3ec29971ac" />
+
+### Change Password
+<img width="1920" height="1080" alt="Screenshot (1793)" src="https://github.com/user-attachments/assets/ea11b9d1-d5cc-4eb7-8db8-f557ce57c47a" />
+
+
+
+
+
+
 
 
 
